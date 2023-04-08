@@ -22,13 +22,13 @@ describe("Token", () => {
     it('should pass the name', async() => {
       expect(await token.name()).to.equal('Dream coin');
     })
-    it('should pass the symbol', async() => {
+    it(' it should pass the symbol', async() => {
       expect(await token.symbol()).to.equal('DC');
     })
-    it('should pass the totalsupply', async() => {
+    it(' it should pass the totalsupply', async() => {
       expect(await token.totalSupply()).to.equal(tokens(1000000))
     })
-    it('should pass the totalsupply', async() => {
+    it(' it should pass the totalsupply', async() => {
       expect(await token.balanceOf(deployer.address)).to.equal(tokens(1000000))
     })
   })

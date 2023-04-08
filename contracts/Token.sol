@@ -20,7 +20,8 @@ contract Token {
     }
   function transfer(address _to, uint256 _value) public returns (bool success) {
     balanceOf[msg.sender] = balanceOf[msg.sender] - _value;
-    balanceOf[_to] = balanceOf[_to] + _value;
+    balanceOf[_to] = balanceOf[_to] + _value; 
+    
   
 
   }
