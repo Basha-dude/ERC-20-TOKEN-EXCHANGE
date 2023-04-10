@@ -13,6 +13,7 @@ describe("Token", () => {
  accounts = await ethers.getSigners();
   deployer = accounts[0];
   reciever = accounts[1];
+  exchange = accounts[2];
    });
 
 
@@ -75,7 +76,42 @@ describe("Token", () => {
 
     })
     
-  })
+   })
+
+   describe("Allowance of token",() => {
+    let transaction,result,amount = tokens(100);
+    beforeEach(async () => {
+      transaction = await  token.connect(deployer).approve(exchange.address,amount);
+     result = await  transaction.wait();
+     })
+    describe("Success",() => {
+      
+         it("should approve",async () => {
+           expect(await token.allowance(deployer.address,exchange.address)).to.equal(amount);
+         })
+
+         it("it should emit an event",async () => {
+          const event = result.events[0]
+          const args = event.args
+          expect(await event.event).to.equal("Approval");
+          expect( await args.owner).to.equal(deployer.address);
+          expect( await args.spender).to.equal(exchange.address);
+          expect( await args.value).to.equal(amount);
+
+          
+         })
+        })
+        describe("Failure",() => {
+          it("it should reject invalid spender",async () => {
+            await expect(token.connect(deployer).approve('0x0000000000000000000000000000000000000000',amount)).to.be.reverted;
+          })
+
+        })
+
+
+
+
+   })     
 
 
 })
