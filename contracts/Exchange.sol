@@ -10,6 +10,7 @@ contract Exchange {
     mapping(address => mapping(address => uint256)) public tokens;
     mapping (uint256 => _Order) orders;
     uint256 public  orderCount;
+    mapping (uint256 => bool) orderCancelled;
 
     struct _Order {
         uint256 id;
@@ -38,6 +39,16 @@ contract Exchange {
 
         
     event Order(
+        uint256 id,
+         address user,
+        address tokenGet,
+        uint256 amountGet,
+        address tokenGive,
+        uint256 amountGive,
+        uint256 timestamp 
+        );
+
+         event Cancel (
         uint256 id,
          address user,
         address tokenGet,
@@ -102,6 +113,28 @@ contract Exchange {
                                     );
 
         emit Order(orderCount,msg.sender,tokenGet,amountGet,tokenGive,amountGive,block.timestamp);
+
+       }
+
+       function orderCancel( uint256 _id)  public {
+        
+       
+        _Order memory _order =  orders[_id];
+         require(_order.id == _id);
+          require(_order.user == msg.sender);
+        orderCancelled[_id] = true;
+
+
+
+
+         emit Cancel(_order.id,
+         msg.sender,
+         _order.tokenGet,
+         _order.amountGet,
+         _order.tokenGive,
+         _order.amountGive,
+         block.timestamp
+         );
 
        }
 
