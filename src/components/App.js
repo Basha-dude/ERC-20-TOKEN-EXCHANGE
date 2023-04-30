@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { ethers } from 'ethers';
 import config from '../config.json';
 import { useDispatch } from 'react-redux';
-import {loadProvider, loadNetwork, loadAccount, loadToken } from '../store/interactions';
+import {loadProvider, loadNetwork, loadAccount, loadTokens, loadExchange } from '../store/interactions';
 
 
 
@@ -11,16 +11,25 @@ function App() {
   const dispatch = useDispatch()
 
   const loadBlockchainData = async () => {
-    const account = await loadAccount(dispatch)
+    
  
 
     // Connect Ethers to blockchain
     const provider = loadProvider(dispatch)
     const chainId = await loadNetwork(provider,dispatch)
      
+      await loadAccount(provider,dispatch)
+    const DApp = config[chainId].DApp
+    const mETH = config[chainId].mETH
       
       //Token smart contract instance
-       await loadToken(provider,config[chainId].DApp.address,dispatch)
+       await loadTokens(provider,[DApp.address,mETH.address],dispatch)
+
+       const exchangeConfig = config[chainId].exchange
+       await loadExchange(provider,exchangeConfig.address,dispatch)
+
+
+       
     
   }
 
