@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { ethers } from 'ethers';
 import config from '../config.json';
+import Navbar from './Navbar';
 import { useDispatch } from 'react-redux';
 import {loadProvider, loadNetwork, loadAccount, loadTokens, loadExchange } from '../store/interactions';
 
@@ -40,7 +41,7 @@ function App() {
   return (
     <div>
 
-      {/* Navbar */}
+      <Navbar />
 
       <main className='exchange grid'>
         <section className='exchange__section--left grid'>
