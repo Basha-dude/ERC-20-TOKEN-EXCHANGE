@@ -17,11 +17,20 @@ function App() {
 
     // Connect Ethers to blockchain
     const provider = loadProvider(dispatch)
-    const chainId = await loadNetwork(provider,dispatch)
+   const chainId =  await loadNetwork(provider,dispatch)
      
-      await loadAccount(provider,dispatch)
+   window.ethereum.on('chainChanged',() => {
+    window.location.reload()
+   })
+
+   window.ethereum.on('accountsChanged',() => {
+    loadAccount(provider,dispatch)
+ })
+
     const DApp = config[chainId].DApp
     const mETH = config[chainId].mETH
+
+      
       
       //Token smart contract instance
        await loadTokens(provider,[DApp.address,mETH.address],dispatch)
