@@ -4,6 +4,7 @@ import config from '../config.json';
 import Navbar from './Navbar';
 import { useDispatch } from 'react-redux';
 import {loadProvider, loadNetwork, loadAccount, loadTokens, loadExchange } from '../store/interactions';
+import Markets from './Markets';
 
 
 
@@ -56,7 +57,7 @@ function App() {
         <section className='exchange__section--left grid'>
        
 
-          {/* Markets */}
+          <Markets/>
 
           {/* Balance */}
 
