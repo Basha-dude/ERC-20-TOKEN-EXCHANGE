@@ -1,10 +1,21 @@
 import { useEffect } from 'react';
-import { ethers } from 'ethers';
-import config from '../config.json';
-import Navbar from './Navbar';
 import { useDispatch } from 'react-redux';
-import {loadProvider, loadNetwork, loadAccount, loadTokens, loadExchange } from '../store/interactions';
+import config from '../config.json';
+
+
+import {
+   loadProvider,
+   loadNetwork,
+   loadAccount,
+   loadTokens,
+   loadExchange,
+   subscribeToEvents
+     } from '../store/interactions';
+import Navbar from './Navbar';
 import Markets from './Markets';
+import Balance from './Balance';
+import { exchange } from '../store/reducers';
+
 
 
 
@@ -37,10 +48,10 @@ function App() {
        await loadTokens(provider,[DApp.address,mETH.address],dispatch)
 
        const exchangeConfig = config[chainId].exchange
-       await loadExchange(provider,exchangeConfig.address,dispatch)
+       const exchange = await loadExchange(provider,exchangeConfig.address,dispatch)
 
-
-       
+      // Listen to Events
+     subscribeToEvents(exchange, dispatch)   
     
   }
 
@@ -59,7 +70,7 @@ function App() {
 
           <Markets/>
 
-          {/* Balance */}
+          <Balance/>
 
           {/* Order */}
 
